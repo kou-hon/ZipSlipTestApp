@@ -56,6 +56,34 @@ using (var zip = DotNetZip_ZipFile.Read(zipFileName))
     check();
 }
 
+//エラーチェック
+Console.WriteLine("DotNetZip_errorCatch");
+extractDir = Path.GetFullPath("unsafe_extracted_dotnetzip3");
+Directory.CreateDirectory(extractDir);
+using (var zip = DotNetZip_ZipFile.Read(zipFileName))
+{
+    foreach (var entry in zip)
+    {
+        try
+        {
+            var destFileName = Path.GetFullPath(Path.Combine(extractDir, entry.FileName));
+            string fullDestDirPath = Path.GetFullPath(extractDir + Path.DirectorySeparatorChar);
+            if (!destFileName.StartsWith(fullDestDirPath))
+            {
+                throw new Exception("Entry is outside of the target dir: " + destFileName);
+            }
+
+            // 問題ない場合のみファイル書き出し
+            entry.Extract(extractDir, ExtractExistingFileAction.OverwriteSilently);
+        }
+        catch(Exception ex) 
+        {
+            Console.WriteLine($"Error extracting {entry.FileName}: {ex.Message}");
+        }
+    }
+    check();
+}
+
 static void check()
 {
     if (File.Exists("evil1.txt"))
