@@ -119,4 +119,5 @@ static void check()
         Console.WriteLine("Error4");
         File.Delete(@"C:\Windows\Temp\evil4.txt");
     }
+    Thread.Sleep(1000);
 }
