@@ -13,6 +13,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="encrypted.zip">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="windows_zipslip_test.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
