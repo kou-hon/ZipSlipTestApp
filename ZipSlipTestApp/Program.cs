@@ -5,6 +5,7 @@ using DotNetZip_ZipFile = Ionic.Zip.ZipFile;
 
 
 var zipFileName = "windows_zipslip_test.zip";
+var zipFileName2 = "encrypted.zip";
 
 //解凍サンプル１(無対策)
 Console.WriteLine("SharpZipLib1");
@@ -51,6 +52,18 @@ extractDir = Path.GetFullPath("unsafe_extracted_dotnetzip2");
 Directory.CreateDirectory(extractDir);
 using (var zip = DotNetZip_ZipFile.Read(zipFileName))
 {
+    zip.ExtractExistingFile = ExtractExistingFileAction.OverwriteSilently;
+    zip.ExtractAll(extractDir);
+    check();
+}
+
+//解凍サンプル４(暗号化、無対策)
+Console.WriteLine("DotNetZip3");
+extractDir = Path.GetFullPath("unsafe_extracted_dotnetzip3");
+Directory.CreateDirectory(extractDir);
+using (var zip = DotNetZip_ZipFile.Read(zipFileName2))
+{
+    zip.Password = "hoge";
     zip.ExtractExistingFile = ExtractExistingFileAction.OverwriteSilently;
     zip.ExtractAll(extractDir);
     check();
